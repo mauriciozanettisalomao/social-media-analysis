@@ -6,7 +6,7 @@ Work in progress.
 
 API to get data from social medias (Twitter is the only implement for now - it needs environment variables).
 
-To run as docker
+To run as a container
 
 ```
 docker build . -t {your-repo}/social-media-analysis
