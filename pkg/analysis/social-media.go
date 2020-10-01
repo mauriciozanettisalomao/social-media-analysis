@@ -4,16 +4,10 @@ import (
 	"fmt"
 
 	app "github.com/mauriciozanettisalomao/social-media-analysis/internal/app"
-	factories "github.com/mauriciozanettisalomao/social-media-analysis/internal/app/factory"
 )
 
 // Search gets the social media mentions
-func Search(socialMediaParam, param, targetLang string, filters map[string]string) (app.Response, error) {
-
-	socialMedia := factories.NewSocialMedia(socialMediaParam)
-	if socialMedia == nil {
-		return app.Response{}, fmt.Errorf("social media %s is not implemented yet", socialMediaParam)
-	}
+func Search(socialMediaParam, param, targetLang string, filters map[string]string, socialMedia app.SocialMedia) (app.Response, error) {
 
 	mentions, err := socialMedia.Search(param, filters)
 	if err != nil {
