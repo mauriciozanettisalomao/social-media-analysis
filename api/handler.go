@@ -23,7 +23,7 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, Authorization,X-CSRF-Token")
 	w.Header().Set("Access-Control-Expose-Headers", "Authorization")
-	w.Header().Set("Version", "1.0")
+	w.Header().Set("Version", "1.1")
 
 	w.WriteHeader(code)
 	w.Write(response)
