@@ -13,6 +13,7 @@ require (
 	github.com/fatih/structs v1.1.0
 	github.com/garyburd/go-oauth v0.0.0-20180319155456-bca2e7f09a17 // indirect
 	github.com/gorilla/mux v1.8.0
+	github.com/sirupsen/logrus v1.7.0
 	github.com/stretchr/testify v1.6.1
 	google.golang.org/genproto v0.0.0-20201001141541-efaab9d3c4f7
 )

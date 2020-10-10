@@ -61,56 +61,64 @@ func SearchMention(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// SearchTranslatedMention gets the mentions as requested and translate them
-func SearchTranslatedMention(w http.ResponseWriter, r *http.Request) {
+// SearchUser gets the user data as requested
+func SearchUser(w http.ResponseWriter, r *http.Request) {
 
-	// vars := mux.Vars(r)
-	// sociamedia := vars["socialmedia"]
-	// param := vars["param"]
-	// targetTranslation := vars["targetTranslation"]
+	vars := mux.Vars(r)
+	socialMediaParam := vars["socialmedia"]
+	username := vars["username"]
 
-	// filters := make(map[string]string, 0)
+	clientSocialMedia := factories.NewSocialMedia(socialMediaParam)
+	if clientSocialMedia == nil {
+		respondWithError(w, http.StatusBadRequest, fmt.Sprintf("social media %s is not implemented yet", socialMediaParam))
+	}
 
-	// values := r.URL.Query()
-	// for k, v := range values {
-	// 	for _, filter := range v {
-	// 		filters[k] = filter
-	// 	}
-	// }
+	filters := make(map[string]string, 0)
 
-	// socialMedia := factories.NewSocialMedia(sociamedia)
-	// if socialMedia == nil {
-	// 	respondWithError(w, http.StatusBadRequest, fmt.Sprintf("social media %s is not implemented yet", sociamedia))
-	// 	return
-	// }
+	values := r.URL.Query()
+	for k, v := range values {
+		for _, filter := range v {
+			filters[k] = filter
+		}
+	}
 
-	// mentions, err := socialMedia.Search(param, filters)
-	// if err != nil {
-	// 	respondWithError(w, http.StatusBadRequest, fmt.Sprintf("error retrieving mentions: %v", err))
-	// 	return
-	// }
+	socialMediaResp, err := socialMedia.SearchUser(username, filters, clientSocialMedia)
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, fmt.Sprintf("could not search user data: %v", err))
+		return
+	}
 
-	// mentionsTranslated := make([]app.Mention, 0)
-	// for _, mention := range mentions {
+	respondWithJSON(w, http.StatusOK, socialMediaResp)
 
-	// 	translator := factories.NewTranslator(mention.Lang, targetTranslation)
-	// 	textTranslated, err := translator.Translate(mention.Text)
-	// 	if err != nil {
-	// 		respondWithError(w, http.StatusBadRequest, fmt.Sprintf("error translating mentions: %v", err))
-	// 		return
-	// 	}
+}
 
-	// 	mentionsTranslated = append(mentionsTranslated, app.Mention{
-	// 		ID:        mention.ID,
-	// 		Name:      mention.Name,
-	// 		Text:      textTranslated.Text,
-	// 		Lang:      textTranslated.TargetLanguageCode,
-	// 		User:      mention.User,
-	// 		CreatedAt: mention.CreatedAt,
-	// 	})
+// SearchFollowers gets the followers of a user as requested
+func SearchFollowers(w http.ResponseWriter, r *http.Request) {
 
-	// }
+	vars := mux.Vars(r)
+	socialMediaParam := vars["socialmedia"]
+	username := vars["username"]
 
-	// respondWithJSON(w, http.StatusOK, mentionsTranslated)
+	clientSocialMedia := factories.NewSocialMedia(socialMediaParam)
+	if clientSocialMedia == nil {
+		respondWithError(w, http.StatusBadRequest, fmt.Sprintf("social media %s is not implemented yet", socialMediaParam))
+	}
+
+	filters := make(map[string]string, 0)
+
+	values := r.URL.Query()
+	for k, v := range values {
+		for _, filter := range v {
+			filters[k] = filter
+		}
+	}
+
+	socialMediaResp, err := socialMedia.SearchFollowers(username, filters, clientSocialMedia)
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, fmt.Sprintf("could not search followers of a user: %v", err))
+		return
+	}
+
+	respondWithJSON(w, http.StatusOK, socialMediaResp)
 
 }

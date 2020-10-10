@@ -20,7 +20,8 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/socialmedia/{socialmedia}/{param}", handler.SearchMention).Methods("GET")
-	r.HandleFunc("/socialmedia/{socialmedia}/{param}/{targetTranslation}", handler.SearchMention).Methods("GET")
+	r.HandleFunc("/socialmedia/{socialmedia}/user/{username}", handler.SearchUser).Methods("GET")
+	r.HandleFunc("/socialmedia/{socialmedia}/user/{username}/followers", handler.SearchFollowers).Methods("GET")
 
 	fmt.Printf("listening on port %s", port)
 
