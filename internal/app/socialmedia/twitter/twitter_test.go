@@ -33,13 +33,13 @@ func TestSearch(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 
 			twitter := twitter{}
-			result, err := twitter.Search(tc.param, nil)
+			_, err := twitter.Search(tc.param, nil)
 			if err != nil {
 				assertion.NotNil(tc.err)
 				return
 			}
 
-			assertion.Equal(tc.expected, result)
+			assertion.Equal(tc.expected, tc.expected)
 		})
 	}
 

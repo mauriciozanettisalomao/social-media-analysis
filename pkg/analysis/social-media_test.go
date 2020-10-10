@@ -9,11 +9,21 @@ import (
 )
 
 type socialMediaMock struct {
-	searchMock func(param string, filter map[string]string) ([]app.Mention, error)
+	searchMock          func(param string, filter map[string]string) ([]app.Mention, error)
+	searchUserMock      func(username string, filter map[string]string) (app.User, error)
+	searchFollowersMock func(username string, filter map[string]string) (app.Metrics, error)
 }
 
 func (s socialMediaMock) Search(param string, filter map[string]string) ([]app.Mention, error) {
 	return s.searchMock(param, filter)
+}
+
+func (s socialMediaMock) SearchUser(username string, filter map[string]string) (app.User, error) {
+	return s.searchUserMock(username, filter)
+}
+
+func (s socialMediaMock) SearchFollowers(username string, filter map[string]string) (app.Metrics, error) {
+	return s.searchFollowersMock(username, filter)
 }
 
 func TestSearch(t *testing.T) {
@@ -42,7 +52,7 @@ func TestSearch(t *testing.T) {
 		targetLang       string
 		filters          filters
 		mentions         []app.Mention
-		expected         app.Response
+		expected         app.ResponseMentions
 		err              error
 	}{
 		{
@@ -60,7 +70,7 @@ func TestSearch(t *testing.T) {
 					CreatedAt: "Thu Oct 01 20:23:33 +0000 2020",
 				},
 			},
-			expected: app.Response{
+			expected: app.ResponseMentions{
 				Parameter:   "nfl",
 				Filters:     []app.Filter{},
 				SocialMedia: case1,

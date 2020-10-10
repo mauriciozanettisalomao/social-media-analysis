@@ -25,6 +25,16 @@ func (t linkedin) Search(param string, filter map[string]string) ([]app.Mention,
 	return nil, fmt.Errorf("social media %s not implemented yet", Name)
 }
 
+func (t linkedin) SearchUser(username string, filter map[string]string) (app.User, error) {
+
+	return app.User{}, fmt.Errorf("social media %s not implemented yet", Name)
+}
+
+func (t linkedin) SearchFollowers(username string, filter map[string]string) (app.Metrics, error) {
+
+	return app.Metrics{}, fmt.Errorf("social media %s not implemented yet", Name)
+}
+
 // New returns a new instance of a twitter social media
 func New() app.SocialMedia {
 	return linkedin{}
